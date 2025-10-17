@@ -6,6 +6,9 @@ const playPauseBtn = document.querySelector("#controls #play");
 const prevBtn = document.querySelector("#controls #prev");
 const nextBtn = document.querySelector("#controls #next");
 const audio = document.querySelector("#audio");
+const duration = document.querySelector("#duration");
+const currentTime = document.querySelector("#current-time");
+const progressBar = document.querySelector("#progress-bar");
 
 const player = new MusicPlayer(musicList);
 
@@ -44,6 +47,7 @@ function togglePlayback() {
 
 function setMusic(track) {
     displayMusic(track);
+    audio.currentTime = 0;
     playMusic();
 }
 
@@ -62,4 +66,24 @@ nextBtn.addEventListener("click", () => {
 audio.addEventListener("ended", () => {
     const next = player.next();
     setMusic(next);
+});
+const calculateTime = (secs) => {
+    const minutes = Math.floor(secs / 60);
+    const seconds = Math.floor(secs % 60);
+    const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+    return `${minutes}:${returnedSeconds}`;
+};
+
+audio.addEventListener("timeupdate", () => {
+    currentTime.textContent = calculateTime(audio.currentTime);
+});
+
+audio.addEventListener("loadedmetadata", () => {
+    duration.textContent = calculateTime(audio.duration);
+    progressBar.max = Math.floor(audio.duration);
+});
+
+audio.addEventListener("timeupdate", () => {
+    progressBar.value = Math.floor(audio.currentTime);
+    currentTime.textContent = calculateTime(progressBar.value);
 });
