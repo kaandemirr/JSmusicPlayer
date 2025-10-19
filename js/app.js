@@ -18,8 +18,8 @@ window.addEventListener("load", () => {
 });
 
 function displayMusic(music) {
-    title.innerText = music.getName();
-    artist.innerText = music.artist;
+    title.textContent = music.title;
+    artist.textContent = music.artist;
     image.src = "img/" + music.img;
     audio.src = "mp3/" + music.src;
 }
