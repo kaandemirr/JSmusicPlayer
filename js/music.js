@@ -1,13 +1,9 @@
 class Music {
-    constructor(title, artist, src, img){
+    constructor(title, artist, src, img) {
         this.title = title;
         this.artist = artist;
         this.src = src;
         this.img = img;
-    }   
-
-    getName(){
-        return this.title + " - " + this.artist;
     }
 }
 

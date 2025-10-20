@@ -4,10 +4,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f8f9fa;
 }
 
 .container {
-  width: 350px;
+  width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,40 +20,9 @@ body {
   margin: 20px 0;
 }
 
-#controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
-}
-
-#controls i {
-  font-size: 30px;
-  color: purple;
-}
-
-#volume-control {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-#volume-control i {
-  font-size: 24px;
-  color: purple;
-  cursor: pointer;
-}
-
-#volume-bar {
-  flex: 1;
-}
-
 #progress {
   width: 100%;
+  padding: 0 24px;
   margin-bottom: 20px;
 }
 
@@ -60,15 +30,84 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 8px;
+  font-weight: 500;
 }
 
 #progress-bar {
   width: 100%;
 }
 
+#controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.control-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  font-size: 26px;
+  line-height: 1;
+  padding: 0;
+}
+
+#play.control-btn {
+  width: 64px;
+  height: 64px;
+  font-size: 30px;
+}
+
+#volume-control {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+#volume-control .control-btn {
+  width: 48px;
+  height: 48px;
+  font-size: 22px;
+}
+
+#volume-bar {
+  flex: 1;
+  margin-left: auto;
+}
+
+.card-img-top,
 #music-image {
   width: 100%;
-  height: 350px;
+  aspect-ratio: 1 / 1;
+  max-height: 320px;
   object-fit: cover;
-  border-radius: 15px;
+}
+
+#playlist-panel {
+  margin-top: 16px;
+  max-height: 200px;
+  overflow-y: auto;
+  text-align: left;
+}
+
+#playlist-panel .playlist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+#playlist-panel .playlist-item.active,
+#playlist-panel .playlist-item:hover {
+  background-color: rgba(13, 110, 253, 0.15);
+  color: #0d6efd;
 }

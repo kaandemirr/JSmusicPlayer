@@ -2,7 +2,6 @@ class MusicPlayer {
     constructor(musicList) {
         this.musicList = musicList;
         this.currentTrackIndex = 0;
-
     }
 
     getMusic() {
@@ -17,6 +16,14 @@ class MusicPlayer {
     prev() {
         this.currentTrackIndex =
             (this.currentTrackIndex - 1 + this.musicList.length) % this.musicList.length;
+        return this.getMusic();
+    }
+
+    setTrack(index) {
+        if (index < 0 || index >= this.musicList.length) {
+            return this.getMusic();
+        }
+        this.currentTrackIndex = index;
         return this.getMusic();
     }
 }
