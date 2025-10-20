@@ -32,6 +32,25 @@ body {
   color: purple;
 }
 
+#volume-control {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+#volume-control i {
+  font-size: 24px;
+  color: purple;
+  cursor: pointer;
+}
+
+#volume-bar {
+  flex: 1;
+}
+
 #progress {
   width: 100%;
   margin-bottom: 20px;

@@ -9,12 +9,20 @@ const audio = document.querySelector("#audio");
 const duration = document.querySelector("#duration");
 const currentTime = document.querySelector("#current-time");
 const progressBar = document.querySelector("#progress-bar");
+const volumeBar = document.querySelector("#volume-bar");
+const muteBtn = document.querySelector("#mute");
 
 const player = new MusicPlayer(musicList);
+let lastVolume = 1;
 
 window.addEventListener("load", () => {
     const currentMusic = player.getMusic();
     displayMusic(currentMusic);
+    if (volumeBar) {
+        const initialVolume = parseFloat(volumeBar.value);
+        audio.volume = isNaN(initialVolume) ? 1 : initialVolume;
+        updateVolumeIcon();
+    }
 });
 
 function displayMusic(music) {
@@ -53,6 +61,53 @@ function setMusic(track) {
 
 playPauseBtn.addEventListener("click", togglePlayback);
 
+function updateVolumeIcon() {
+    if (!muteBtn) {
+        return;
+    }
+    muteBtn.classList.remove("fa-volume-high", "fa-volume-low", "fa-volume-xmark");
+    const volumeLevel = audio.muted ? 0 : audio.volume;
+    if (volumeLevel === 0) {
+        muteBtn.classList.add("fa-volume-xmark");
+    } else if (volumeLevel < 0.5) {
+        muteBtn.classList.add("fa-volume-low");
+    } else {
+        muteBtn.classList.add("fa-volume-high");
+    }
+}
+
+function handleVolumeChange(event) {
+    const value = parseFloat(event.target.value);
+    if (isNaN(value)) {
+        return;
+    }
+    audio.volume = value;
+    audio.muted = value === 0;
+    if (value > 0) {
+        lastVolume = value;
+    }
+    updateVolumeIcon();
+}
+
+function toggleMute() {
+    if (audio.muted || audio.volume === 0) {
+        const restoreVolume = lastVolume > 0 ? lastVolume : 1;
+        audio.volume = restoreVolume;
+        audio.muted = false;
+        if (volumeBar) {
+            volumeBar.value = restoreVolume;
+        }
+    } else {
+        lastVolume = audio.volume > 0 ? audio.volume : lastVolume;
+        audio.volume = 0;
+        audio.muted = true;
+        if (volumeBar) {
+            volumeBar.value = 0;
+        }
+    }
+    updateVolumeIcon();
+}
+
 prevBtn.addEventListener("click", () => {
     const previous = player.prev();
     setMusic(previous);
@@ -87,3 +142,11 @@ audio.addEventListener("timeupdate", () => {
     progressBar.value = Math.floor(audio.currentTime);
     currentTime.textContent = calculateTime(progressBar.value);
 });
+
+if (volumeBar) {
+    volumeBar.addEventListener("input", handleVolumeChange);
+}
+
+if (muteBtn) {
+    muteBtn.addEventListener("click", toggleMute);
+}
