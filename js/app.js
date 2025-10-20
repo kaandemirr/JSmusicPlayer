@@ -14,6 +14,7 @@ const muteBtn = document.querySelector("#mute");
 
 const player = new MusicPlayer(musicList);
 let lastVolume = 1;
+let isSeeking = false;
 
 window.addEventListener("load", () => {
     const currentMusic = player.getMusic();
@@ -139,8 +140,10 @@ audio.addEventListener("loadedmetadata", () => {
 });
 
 audio.addEventListener("timeupdate", () => {
-    progressBar.value = Math.floor(audio.currentTime);
-    currentTime.textContent = calculateTime(progressBar.value);
+    if (!isSeeking) {
+        progressBar.value = Math.floor(audio.currentTime);
+        currentTime.textContent = calculateTime(progressBar.value);
+    }
 });
 
 if (volumeBar) {
@@ -150,3 +153,29 @@ if (volumeBar) {
 if (muteBtn) {
     muteBtn.addEventListener("click", toggleMute);
 }
+
+function seekTo(value) {
+    audio.currentTime = value;
+    if (!audio.paused) {
+        playMusic();
+    }
+}
+
+progressBar.addEventListener("input", (event) => {
+    const value = parseFloat(event.target.value);
+    if (isNaN(value)) {
+        return;
+    }
+    isSeeking = true;
+    currentTime.textContent = calculateTime(value);
+});
+
+progressBar.addEventListener("change", (event) => {
+    const value = parseFloat(event.target.value);
+    if (isNaN(value)) {
+        isSeeking = false;
+        return;
+    }
+    seekTo(value);
+    isSeeking = false;
+});
